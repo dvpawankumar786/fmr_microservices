@@ -1,0 +1,23 @@
+server:
+  port: 9098
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 1
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 0
+    eureka-server-port: :8761
+       
+spring:
+  application:
+    name: stock-service
+
+stock-service:
+             ribbon:
+                     listOfServers: http://localhost:9098
