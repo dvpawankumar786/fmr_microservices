@@ -1,0 +1,26 @@
+#Zuul routes. Here for /student path, we are routing to localhost:8090 with extra path after that.
+
+spring:
+      application:
+               name: zuulapi
+
+zuul:
+    routes:
+         hdfcbankser:
+                path: /hdfcbankser/**
+                serviceId: bank-service
+ #Ribbon is auto integrated with Zuul and for this exercise we are not using that.
+ribbon:
+      eureka:
+          enabled: true
+ 
+eureka:
+       client:
+         eureka-server-port: 8761 
+ 
+#Will start the gateway server @8080
+server:
+      port: 8080
+      
+      
+      #url: http://localhost:9098
