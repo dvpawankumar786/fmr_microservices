@@ -8,7 +8,7 @@ you can run this application as a monolith.
 system. The following 3 profiles are available:
 * `command`: Contains the Giftcard aggregate
 * `query`: Contains the Giftcard read model
-* `client`: Executes a few test commands and a test query
+* `client`: Executes a few test commands and a test query using REST end points.
 
 By passing these as JVM arguments `spring.profiles.active` to `command,query,client`, you'll run the app
 as a monolith.
