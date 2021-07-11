@@ -17,12 +17,15 @@
 <%
 HttpSession sessionsa = request.getSession(false);
 String token = (String) sessionsa.getAttribute("token");
+String pid = (String) sessionsa.getAttribute("pid");
+String sid = (String) sessionsa.getAttribute("sid");
 response.setHeader("Authorization","Bearer "+token);
 List<Stocks> stockslist = (List<Stocks>) sessionsa.getAttribute("masterstockslist");
 %>
 <div class="hr"></div>
  
 <div id="formmasterstocks" class="login-wrap">
+<input type="hidden" id="sid" name="sid" value=<%=sid%>>
 
 	<div class="login-html">
 	<input type="hidden" id="token" name="token" value=<%=token%>>
@@ -31,8 +34,9 @@ List<Stocks> stockslist = (List<Stocks>) sessionsa.getAttribute("masterstockslis
 			</div>
 	<div><h2 style="color:#784">Buy Stocks</h2></div>
 		<div>
-				<table  border="1" cellpadding="0" cellspacing="0">
+				<table  border="1" cellpadding="0" cellspacing="0" id="myTable">
 				<tr>
+				<td>portfolioId</td>
 				<td>symbol</td>
 				<td>type</td>
 				<td>lastDividend</td>
@@ -51,7 +55,7 @@ List<Stocks> stockslist = (List<Stocks>) sessionsa.getAttribute("masterstockslis
             %>
                 <tr>
                  
-                     <td id="symbol"><%= s.getSymbol()%></td><td id="type"><%= s.getType()%></td><td  id="lastDividend"><%= s.getLastDividend()%></td><td  id="fixedDividend"><%= s.getFixedDividend()%></td><td  id="parValue"><%= s.getParValue()%></td><td  id="tickerPrice"><%= s.getTickerPrice()%></td><td><input type="radio" id="buystock" name="select" value="select" required></td>
+                     <td class="pid"><%=pid%></td><td class="symbol"><%= s.getSymbol()%></td><td class="type"><%= s.getType()%></td><td  class="lastDividend"><%= s.getLastDividend()%></td><td  class="fixedDividend"><%= s.getFixedDividend()%></td><td  class="parValue"><%= s.getParValue()%></td><td  id="tickerPrice"><%= s.getTickerPrice()%></td><td><button class="btnSelect">buy stock</button></td>
                 </tr>
                
             <% 
@@ -67,9 +71,9 @@ List<Stocks> stockslist = (List<Stocks>) sessionsa.getAttribute("masterstockslis
 			</div>
 			<div>
 			<br></div>
-<div class="group">
+<!-- <div class="group">
 					<input type="submit" id="buystockid" class="button" value="Buy This Stock" />
-				</div>
+				</div> -->
 	</div>
 	
 	<div class="hr"></div>

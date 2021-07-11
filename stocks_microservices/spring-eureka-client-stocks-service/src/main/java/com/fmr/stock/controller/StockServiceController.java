@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,19 +31,21 @@ import com.fmr.stock.model.StockDto;
 import com.fmr.stock.service.StockInt;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+@Configuration
 @RestController
+@RefreshScope
 public class StockServiceController {
 	@Autowired
 	StockInt stockInt;
 	
 	@Autowired
 	RestTemplate restTemplate;
+	
+	@Value("${testmessage}")
+	 private String msg;
+	
+	private static final Logger logger=LoggerFactory.getLogger(StockServiceController.class);
 
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
 	
 	@RequestMapping(value = "/savestock", method = RequestMethod.POST)
 	@HystrixCommand(fallbackMethod = "sellingStockServiceFallBack")
@@ -79,7 +87,11 @@ public class StockServiceController {
 
 	@RequestMapping(value = "/getallstocksdummy", method = RequestMethod.GET)
     public String getallstocksdummy() {
+		logger.info("inside getallstocksdummy starts");
+
 	System.out.println("hhhhh");
+	logger.info("inside getallstocksdummy ends");
+
 	return "valid";
     
 }
@@ -91,4 +103,9 @@ public class StockServiceController {
 	 list.add(new MasterStock());
 	 return list;
 	}
+	@GetMapping("/testing")
+    public String getMsg() {
+	 System.out.println("message"+this.msg);
+        return this.msg;
+    }
 }

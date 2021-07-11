@@ -32,8 +32,15 @@ public class IdClassPk implements Serializable {
 		public void setPortfolioId(String portfolioId) {
 			this.portfolioId = portfolioId;
 		}
-	 
-	
+		public int hashCode() {
+	         return (int)this.stocksId.hashCode();
+	     }
+		public boolean equals(Object obj) {
+	         if (obj == this) return true;
+	         if (!(obj instanceof IdClassPk)) return false;
+	         IdClassPk pk = (IdClassPk) obj;
+	         return pk.stocksId.equals(this.stocksId) && pk.portfolioId.equals(this.portfolioId);
+	     }
 
 		
 		

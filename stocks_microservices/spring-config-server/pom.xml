@@ -8,7 +8,7 @@
 		<version>2.2.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.fmr.demo</groupId>
 	<artifactId>spring-config-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-config-server</name>
@@ -39,6 +39,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+	
 	</dependencies>
 
 	<dependencyManagement>
@@ -53,13 +54,14 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+	  <build>
+        <defaultGoal>spring-boot:run</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

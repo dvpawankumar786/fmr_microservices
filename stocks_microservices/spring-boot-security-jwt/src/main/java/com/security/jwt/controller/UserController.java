@@ -20,6 +20,7 @@ import com.security.jwt.service.UserService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -116,7 +117,11 @@ public class UserController {
    		
    		List<Stocks> finList=remoteBankServiceCall.callMasterStockServiceForGet();
    		System.out.println("count"+finList.size());
+   		Random r=new Random();
+   		
+   		session.setAttribute("sid", "NYC"+r.nextInt(200));
    		session.setAttribute("masterstockslist", finList);
+   		session.setAttribute("pid", portReqDto.getPortfolioId());
    		return new ResponseEntity<List<Stocks>>(finList,HttpStatus.OK);
 	}
    	

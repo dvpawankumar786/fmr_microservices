@@ -2,6 +2,8 @@ package com.security.jwt.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +39,11 @@ import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
-
+@RefreshScope
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/token")
+@Configuration
 public class AuthenticationController {
 
     @Autowired
@@ -60,8 +63,8 @@ public class AuthenticationController {
 	private UserDao userDao;
 
     @ResponseBody @RequestMapping(value = "/generate-token", method = RequestMethod.POST,consumes = "application/json")
-    @HystrixCommand(fallbackMethod  = "tokenfallback")
-    public String register(@RequestBody LoginUser loginUser,Model model,HttpSession session) throws AuthenticationException {
+   @HystrixCommand(fallbackMethod  = "tokenfallback")
+    public String register(@RequestBody LoginUser loginUser,Model model,HttpSession session,Throwable t) throws AuthenticationException {
     	ModelAndView model1 = new ModelAndView();
     	 session.setAttribute("user", loginUser.getUsername());
         System.out.println("dkjfhkdsb"+loginUser);
@@ -71,9 +74,12 @@ public class AuthenticationController {
                         loginUser.getPassword()
                 )
         );
+        System.out.println(authentication.getDetails());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
         session.setAttribute("token", token);
+        System.out.print("token---"+token);
+
         List<DropDownList> dlist=new ArrayList<>();
         List<String> finList=new ArrayList<String>();
         finList=remoteServiceCall.callPortfolioremote((userDao.findByUsername(loginUser.getUsername())).getCustid());
@@ -87,7 +93,6 @@ public class AuthenticationController {
         model.addAttribute("dlist", dlist);
         System.out.println("final  list"+dlist.size());
         model.addAttribute("token", token);
-        System.out.print("token---"+token);
         System.out.print("custid---"+userDao.findByUsername(loginUser.getUsername()));
       
        
@@ -142,16 +147,23 @@ return "welcome";
     	model.setViewName("registerdone");
         return model;
     }
-	 public String tokenfallback(@RequestBody LoginUser loginUser,Model model,HttpSession session) throws AuthenticationException {
+	 public String tokenfallback(@RequestBody LoginUser loginUser,Model model,HttpSession session,Throwable t) throws Exception {
 	        System.out.println("inside token fallback");
 	        List<DropDownList> dlist=new ArrayList<>();
 	        DropDownList d=new DropDownList("fallback","fall back from portfolio service");
 	        dlist.add(d);
 	        	
 	        session.setAttribute("dlist", dlist);
+	        System.out.println("1->"+t.getLocalizedMessage());
+	        System.out.println("2->"+t.getMessage());
+	        System.out.println("3->"+t.toString());
+	        System.out.println("4->"+t.getCause());
+	        System.out.println("5->"+t);
 
-		 return "";
-	 }
+
+
+	       return "";
+ }
 	 @RequestMapping(value = "/dismasterstocks", method = RequestMethod.GET)
 	    public ModelAndView  dismasterstocks(){
 	    	ModelAndView model = new ModelAndView();

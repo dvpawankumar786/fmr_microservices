@@ -52,7 +52,9 @@
 				</div>
 				<div class="group">
 					<label for="user" class="label">Role</label>
-					<input type="radio" name="course" id="role" value="USER">ROLE_USER</input>
+					<input type="radio" name="course" id="role" value="ADMIN">ROLE_ADMIN</input>
+				    <input type="radio" name="course" id="role" value="USER">ROLE_USER</input>
+					
 				</div>
 				<div class="group">
 					<label for="pass" class="label">Password</label>
