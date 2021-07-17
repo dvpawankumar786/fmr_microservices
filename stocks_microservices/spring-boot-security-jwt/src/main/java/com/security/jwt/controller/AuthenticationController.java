@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,8 @@ public class AuthenticationController {
     @Autowired
     private RemoteServiceCall remoteServiceCall;
     
+	@Autowired
+	private BCryptPasswordEncoder bcryptEncoder;
 
 	@Autowired
 	private UserDao userDao;
@@ -66,8 +69,9 @@ public class AuthenticationController {
    @HystrixCommand(fallbackMethod  = "tokenfallback")
     public String register(@RequestBody LoginUser loginUser,Model model,HttpSession session,Throwable t) throws AuthenticationException {
     	ModelAndView model1 = new ModelAndView();
+    	
     	 session.setAttribute("user", loginUser.getUsername());
-        System.out.println("dkjfhkdsb"+loginUser);
+        System.out.println("dkjfhkdsb"+bcryptEncoder.encode(loginUser.getPassword()));
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUser.getUsername(),

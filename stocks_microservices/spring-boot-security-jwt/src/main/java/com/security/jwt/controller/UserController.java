@@ -35,7 +35,7 @@ public class UserController {
     @Autowired
    	RemoteServiceCall remoteBankServiceCall;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value="/users", method = RequestMethod.GET)
     public List<User> listUser(){
         return userService.findAll();
@@ -51,7 +51,7 @@ public class UserController {
     
     @RequestMapping(value = "/saveStockDetailsIn", method = RequestMethod.POST)
    	@HystrixCommand(fallbackMethod = "stockServiceFallBack")
-   	@PreAuthorize("hasRole('ADMIN')")
+   	@PreAuthorize("hasRole('USER')")
    	public ResponseEntity<Stocks> saveStocksDetails(@RequestBody Stocks stockDto) {
    		System.out.println("INSIDE saveStocksDetails");
    		return new ResponseEntity<Stocks>(remoteBankServiceCall.callStockService(stockDto),HttpStatus.OK);
@@ -60,7 +60,7 @@ public class UserController {
        
    	@RequestMapping(value = "/getStockDetails", method = RequestMethod.POST)
    	@HystrixCommand(fallbackMethod = "stockGetServiceFallBack")
-   	@PreAuthorize("hasRole('ADMIN')")
+   	@PreAuthorize("hasRole('USER')")
    	public ResponseEntity<List<Stocks>> getStocksDetails(@RequestBody PortfolioReqDto portReqDto,HttpSession session) {
    		
    		System.out.println("INISDE getStocksDetails");
@@ -74,7 +74,7 @@ public class UserController {
    	
  	@RequestMapping(value = "/getAllPortfolioDetails", method = RequestMethod.POST)
    	@HystrixCommand(fallbackMethod = "portfolioServiceFallBack")
-   	@PreAuthorize("hasRole('ADMIN')")
+   	@PreAuthorize("hasRole('USER')")
    	public ResponseEntity<List<PortfolioResponseDto>> getAllPortfolioDetails(@RequestBody custDetailsReqDto custDetailsReq,HttpSession session) {
    		System.out.println("INISDE getAllPortfolioDetails");
    		
@@ -100,7 +100,7 @@ public class UserController {
    		
    	}
 	@RequestMapping(value = "/logoutser", method = RequestMethod.POST)
-   	@PreAuthorize("hasRole('ADMIN')")
+   	@PreAuthorize("hasRole('USER')")
    	public @ResponseBody ResponseEntity<String> logout(PortfolioReqDto obj,HttpSession httpSession) {
    		System.out.println("INISDE logout");
    		httpSession.invalidate();
@@ -110,7 +110,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/getStockMasterDetails", method = RequestMethod.POST)
    	@HystrixCommand(fallbackMethod = "stockGetMasterServiceFallBack")
-   	@PreAuthorize("hasRole('ADMIN')")
+   	@PreAuthorize("hasRole('USER')")
    	public ResponseEntity<List<Stocks>> getStocksMasterDetails(@RequestBody PortfolioReqDto portReqDto,HttpSession session) {
    		
    		System.out.println("INISDE getStocksDetails master call");
