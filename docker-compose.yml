@@ -1,0 +1,36 @@
+version: '3'
+services:
+  eureka:
+    image: pawandvdockerid/eureka-repo:veureka.1.0
+    ports:
+      - 8761:8761
+    depends_on:
+      - config
+    networks:
+      - ms-network
+  config:
+    image: pawandvdockerid/config-repo:vconfig.1.0
+    volumes:
+      - ./config-data:/var/config-data
+    environment:
+      - JAVA_OPTS=
+         -Dspring.cloud.config.server.native.searchLocations=/var/config-data
+    networks:
+      - ms-network
+    ports:
+      - 8888
+  portfolio-service:
+    image: pawandvdockerid/portfolio-repo:vportfolio.1.0
+    environment:
+      - JAVA_OPTS=
+         -EUREKA_SERVER=http://eureka:8761/eureka
+    networks:
+      - ms-network
+    ports:
+      - 9094:9094
+    depends_on:
+      - eureka
+      - config
+networks:
+    ms-network:
+        driver: bridge
