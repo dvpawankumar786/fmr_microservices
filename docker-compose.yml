@@ -26,6 +26,21 @@ services:
       - CONFIG_SERVER_URL=http://config:8888/
     networks:
       - ms-network
+  portfolio-service:
+    image: pawandvdockerid/portfolio-repo:vportfolio.1.0
+    hostname: portfolio-service
+    depends_on:
+      - eureka
+      - config
+    environment:
+      - CONFIG_SERVER_URL=http://config:8888/
+      - EUREKA_SERVER=http://eureka:8761/eureka
+    networks:
+      - ms-network
+    expose:
+      - 9094
+    ports:
+      - 9094:9094
 networks:
     ms-network:
         driver: bridge

@@ -28,9 +28,9 @@ public class SpringEurekaClientPortfolioServiceApplication {
 
  	private static final Logger logger=LoggerFactory.getLogger(SpringEurekaClientPortfolioServiceApplication.class);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
     	logger.info("starts");
-
+    	Thread.sleep(10000);
 		SpringApplication.run(SpringEurekaClientPortfolioServiceApplication.class, args);
     	logger.info("ends");
 
