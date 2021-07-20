@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringEurekaServerApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
+		Thread.sleep(6000);
 		SpringApplication.run(SpringEurekaServerApplication.class, args);
 	}
 	@Bean

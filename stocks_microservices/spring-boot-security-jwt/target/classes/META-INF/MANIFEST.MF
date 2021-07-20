@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: pawan
+Build-Jdk: 16.0.1
+Implementation-Title: spring-boot-security-jwt
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.security.jwt
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/spring-boot-se
+ curity-jwt/
+Created-By: Maven Integration for Eclipse
+
